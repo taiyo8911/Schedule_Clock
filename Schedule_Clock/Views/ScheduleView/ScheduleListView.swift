@@ -7,56 +7,6 @@
 
 import SwiftUI
 
-//struct ScheduleListView: View {
-//    @EnvironmentObject var scheduleViewModel: ScheduleViewModel
-//    
-//    var body: some View {
-//        VStack {
-//            // 予定が無い場合の表示
-//            if scheduleViewModel.schedules.isEmpty {
-//                Text("予定はありません")
-//                    .font(.headline)
-//                    .foregroundColor(.gray)
-//            } else {
-//                // 予定リストの表示
-//                List {
-//                    ForEach(scheduleViewModel.schedules) { schedule in
-//                        HStack {
-//                            Text(schedule.formattedStartTime)
-//                                .font(.subheadline)
-//                                .foregroundColor(.gray)
-//                                .padding(.leading)
-//                            
-//                            Text(schedule.title)
-//                                .font(.headline)
-//                        }
-//                    }
-//                    .onDelete(perform: deleteSchedule)  // スワイプで削除するアクション
-//                }
-//                .onAppear {
-//                    scheduleViewModel.loadSchedules()  // リスト表示前に予定を読み込む
-//                }
-//            }
-//        }
-//    }
-//    
-//    // スワイプで削除する関数
-//    private func deleteSchedule(at offsets: IndexSet) {
-//        // 指定されたインデックスを削除
-//        scheduleViewModel.schedules.remove(atOffsets: offsets)
-//        
-//        // 削除後に保存
-//        scheduleViewModel.saveSchedules()
-//    }
-//}
-//
-//struct ScheduleListView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        ScheduleListView()
-//            .environmentObject(ScheduleViewModel())
-//    }
-//}
-
 
 struct ScheduleListView: View {
     @EnvironmentObject var scheduleViewModel: ScheduleViewModel  // スケジュールのデータを取得
@@ -76,13 +26,17 @@ struct ScheduleListView: View {
                         HStack {
                             // 予定の開始時間
                             Text(schedule.formattedStartTime)
-                                .font(.subheadline)
+                                .font(.headline)
                                 .foregroundColor(.gray)
+                                .font(.system(size: 20).monospaced())
+                                .padding(.trailing)
                             
+
                             // 予定のタイトル
                             Text(schedule.title)
                                 .font(.headline)
-                                .padding(.leading)
+                                .lineLimit(1)  // 1行に制限
+                                .minimumScaleFactor(0.5)  // 長い文字はサイズ縮小
                         }
                     }
                     // 予定をスワイプで削除する
@@ -95,7 +49,7 @@ struct ScheduleListView: View {
             }
         }
     }
-
+    
     // 予定をスワイプで削除するための関数
     private func deleteSchedule(at offsets: IndexSet) {
         // インデックスに基づいて指定された予定を削除
@@ -110,6 +64,6 @@ struct ScheduleListView: View {
 struct ScheduleListView_Previews: PreviewProvider {
     static var previews: some View {
         ScheduleListView()
-            .environmentObject(ScheduleViewModel())  // プレビュー用にScheduleViewModelを環境オブジェクトとして渡す
+            .environmentObject(ScheduleViewModel())
     }
 }

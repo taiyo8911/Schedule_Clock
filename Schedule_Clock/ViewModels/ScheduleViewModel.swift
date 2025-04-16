@@ -13,7 +13,7 @@ class ScheduleViewModel: ObservableObject {
     // スケジュールのリスト（アプリ全体で共有される）
     @Published var schedules: [ScheduleModel] = []
 
-    // 予定の最大数指定（これ以上は追加できない）
+    // 予定の最大数指定
     @Published var maxScheduleCount: Int = 5
 
     // 保存するファイルの名前
