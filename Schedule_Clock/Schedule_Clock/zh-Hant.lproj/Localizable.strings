@@ -1,0 +1,21 @@
+/* 
+  Localizable.strings
+  Schedule_Clock
+
+  Created by Taiyo KOSHIBA on 2025/04/17.
+  
+*/
+
+
+// 主螢幕
+"no_schedules" = "沒有日程";
+"max_schedules_reached" = "無法創建更多日程";
+
+// 添加日程螢幕
+"enter_schedule" = "輸入日程";
+"start_time" = "開始時間";
+"save" = "保存";
+"new_schedule" = "添加新日程";
+
+// 日程列表
+"delete" = "刪除";

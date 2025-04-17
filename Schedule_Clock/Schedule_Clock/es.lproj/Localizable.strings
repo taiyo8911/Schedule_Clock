@@ -1,0 +1,20 @@
+/* 
+  Localizable.strings
+  Schedule_Clock
+
+  Created by Taiyo KOSHIBA on 2025/04/17.
+  
+*/
+
+// Pantalla principal
+"no_schedules" = "No hay eventos";
+"max_schedules_reached" = "No se pueden crear más eventos";
+
+// Pantalla para añadir evento
+"enter_schedule" = "Introducir evento";
+"start_time" = "Hora de inicio";
+"save" = "Guardar";
+"new_schedule" = "Añadir nuevo evento";
+
+// Lista de eventos
+"delete" = "Eliminar";
