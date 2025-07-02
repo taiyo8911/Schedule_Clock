@@ -5,7 +5,6 @@
 //  Created by Taiyo KOSHIBA on 2025/01/30.
 //
 
-
 import SwiftUI
 
 // 予定を追加するためのフローティングアクションボタン（FAB）
@@ -39,11 +38,22 @@ struct FloatingActionButton: View {
     }
 }
 
-
-struct FloatingActionButton_Previews: PreviewProvider {
-    static var previews: some View {
-        FloatingActionButton(isAddScheduleViewPresented: .constant(false)) // プレビュー用に固定値を設定
-            .environmentObject(ScheduleViewModel()) // 仮のデータを適用
+// 新しいプレビュー記法を使用（デザイン確認用）
+#Preview {
+    // デザイン確認のため、条件分岐なしでボタンを直接表示
+    Button(action: {
+        // プレビュー用なので何もしない
+    }) {
+        Image(systemName: "plus.circle.fill")
+            .resizable()
+            .scaledToFit()
+            .frame(width: 60, height: 60)
+            .foregroundColor(.white)
+            .background(Color.blue)
+            .clipShape(Circle())
+            .shadow(radius: 10)
     }
+    .padding(.bottom, 30)
+    .padding(.trailing, 20)
+    .padding(50) // プレビュー用に余白を追加
 }
-

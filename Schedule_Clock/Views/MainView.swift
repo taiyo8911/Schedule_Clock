@@ -157,7 +157,6 @@ struct MainView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color.white)
         .dynamicTypeSize(...DynamicTypeSize.xxxLarge)
-
     }
 
     // 最大予定数メッセージ
