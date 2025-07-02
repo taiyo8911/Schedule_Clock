@@ -110,6 +110,8 @@ struct MainView: View {
             }
             .padding(.horizontal, 20)
             .padding(.vertical, 15)
+            .dynamicTypeSize(...DynamicTypeSize.xxxLarge)
+
 
             Divider()
 
@@ -139,16 +141,12 @@ struct MainView: View {
         VStack(spacing: 20) {
             Spacer()
 
-            Image(systemName: "calendar.badge.plus")
-                .font(.system(size: 60))
-                .foregroundColor(.blue.opacity(0.6))
-
             VStack(spacing: 8) {
                 Text(NSLocalizedString("no_schedules", comment: "予定がない場合に表示するメッセージ"))
                     .font(.headline)
                     .foregroundColor(.primary)
 
-                Text("右下のボタンから予定を追加できます")
+                Text("ボタンから予定を追加できます")
                     .font(.caption)
                     .foregroundColor(.secondary)
                     .multilineTextAlignment(.center)
@@ -158,6 +156,8 @@ struct MainView: View {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color.white)
+        .dynamicTypeSize(...DynamicTypeSize.xxxLarge)
+
     }
 
     // 最大予定数メッセージ
@@ -175,6 +175,7 @@ struct MainView: View {
         .padding(.horizontal, 20)
         .padding(.vertical, 12)
         .background(Color.orange.opacity(0.1))
+        .dynamicTypeSize(...DynamicTypeSize.xxxLarge)
     }
 }
 

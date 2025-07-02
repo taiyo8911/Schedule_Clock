@@ -31,13 +31,14 @@ struct ScheduleListView: View {
                                 .font(.system(size: 20).monospaced())
                                 .padding(.trailing)
 
-
                             // 予定のタイトル
                             Text(schedule.title)
                                 .font(.headline)
                                 .lineLimit(1)  // 1行に制限
                                 .minimumScaleFactor(0.5)  // 長い文字はサイズ縮小
                         }
+                        .dynamicTypeSize(...DynamicTypeSize.xxxLarge)
+
                     }
                     // 予定をスワイプで削除する
                     .onDelete(perform: deleteSchedule)

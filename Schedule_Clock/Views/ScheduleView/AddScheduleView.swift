@@ -22,11 +22,13 @@ struct AddScheduleView: View {
                 TextField("enter_schedule", text: $title)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .padding()
-
+                    .dynamicTypeSize(...DynamicTypeSize.accessibility4)
 
 
                 DatePicker("start_time", selection: $selectedStartTime, displayedComponents: [.hourAndMinute])
                     .padding()
+                    .dynamicTypeSize(...DynamicTypeSize.accessibility4)
+
 
                 Button(action: {
                     // ボタンが押されたら
@@ -49,6 +51,8 @@ struct AddScheduleView: View {
                         .cornerRadius(10)  // 角丸
                 }
                 .padding()
+                .dynamicTypeSize(...DynamicTypeSize.accessibility4)
+
             }
             .navigationTitle("new_schedule")  // ナビゲーションバーのタイトル
             .padding()
