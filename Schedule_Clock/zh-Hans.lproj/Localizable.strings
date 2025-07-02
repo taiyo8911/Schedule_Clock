@@ -1,13 +1,14 @@
-/* 
+/*
   Localizable.strings
   Schedule_Clock
 
   Created by Taiyo KOSHIBA on 2025/04/17.
-  
+
 */
 
 // 主屏幕
 "no_schedules" = "没有日程";
+"add_schedule_hint" = "可以使用下方按钮添加日程";
 "max_schedules_reached" = "无法创建更多日程";
 
 // 添加日程屏幕
@@ -18,3 +19,14 @@
 
 // 日程列表
 "delete" = "删除";
+
+// 错误消息
+"save_error" = "保存错误";
+"load_error" = "加载错误";
+"delete_error" = "删除错误";
+"invalid_input" = "输入错误";
+"save_error_message" = "保存日程失败。\n详情：%@";
+"load_error_message" = "加载日程失败。\n详情：%@";
+"schedule_limit_message" = "最多可以注册%d个日程。";
+"empty_title_message" = "请输入日程标题。";
+"invalid_schedule_index" = "指定了无效的日程。";

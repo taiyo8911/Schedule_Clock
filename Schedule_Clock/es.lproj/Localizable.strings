@@ -1,13 +1,14 @@
-/* 
+/*
   Localizable.strings
   Schedule_Clock
 
   Created by Taiyo KOSHIBA on 2025/04/17.
-  
+
 */
 
 // Pantalla principal
 "no_schedules" = "No hay eventos";
+"add_schedule_hint" = "Puedes añadir eventos usando el botón de abajo";
 "max_schedules_reached" = "No se pueden crear más eventos";
 
 // Pantalla para añadir evento
@@ -18,3 +19,14 @@
 
 // Lista de eventos
 "delete" = "Eliminar";
+
+// Mensajes de error
+"save_error" = "Error al guardar";
+"load_error" = "Error al cargar";
+"delete_error" = "Error al eliminar";
+"invalid_input" = "Error de entrada";
+"save_error_message" = "No se pudieron guardar los eventos.\nDetalles: %@";
+"load_error_message" = "No se pudieron cargar los eventos.\nDetalles: %@";
+"schedule_limit_message" = "Puedes registrar hasta %d eventos.";
+"empty_title_message" = "Por favor, introduce un título para el evento.";
+"invalid_schedule_index" = "Evento inválido especificado.";

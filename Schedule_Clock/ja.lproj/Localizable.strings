@@ -1,13 +1,14 @@
-/* 
+/*
   Localizable.strings
   Schedule_Clock
 
   Created by Taiyo KOSHIBA on 2025/04/17.
-  
+
 */
 
 // メイン画面
 "no_schedules" = "予定はありません";
+"add_schedule_hint" = "下のボタンから予定を追加できます";
 "max_schedules_reached" = "予定はこれ以上作成できません";
 
 // 予定追加画面
@@ -18,3 +19,14 @@
 
 // 予定リスト
 "delete" = "削除";
+
+// エラーメッセージ
+"save_error" = "保存エラー";
+"load_error" = "読み込みエラー";
+"delete_error" = "削除エラー";
+"invalid_input" = "入力エラー";
+"save_error_message" = "予定の保存に失敗しました。\n詳細: %@";
+"load_error_message" = "予定の読み込みに失敗しました。\n詳細: %@";
+"schedule_limit_message" = "予定は最大%d件まで登録できます。";
+"empty_title_message" = "予定のタイトルを入力してください。";
+"invalid_schedule_index" = "無効な予定が指定されました。";
