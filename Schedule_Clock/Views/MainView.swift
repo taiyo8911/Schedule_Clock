@@ -5,93 +5,192 @@
 //  Created by Taiyo KOSHIBA on 2025/01/26.
 //
 
-
 import SwiftUI
 
 struct MainView: View {
-    @EnvironmentObject var scheduleViewModel: ScheduleViewModel  // ScheduleViewModelからスケジュールデータを取得
-    @State private var isAddScheduleViewPresented = false  // 新規スケジュール追加画面を表示するフラグ
+    @EnvironmentObject var scheduleViewModel: ScheduleViewModel
+    @State private var isAddScheduleViewPresented = false
 
     var body: some View {
-        // GeometryReaderを使って画面のサイズを取得して画面の向きを判定
         GeometryReader { geometry in
-            let isLandscape = geometry.size.width > geometry.size.height  // 横向き（ランドスケープ）か縦向き（ポートレート）かを判定
+            let isLandscape = geometry.size.width > geometry.size.height
 
-            Group {
+            ZStack {
+                // 背景グラデーション
+                LinearGradient(
+                    gradient: Gradient(colors: [Color.blue.opacity(0.1), Color.white]),
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
+                )
+                .ignoresSafeArea()
+
                 if isLandscape {
-                    // 横向きの場合はHStackで時計とスケジュールを横に並べる
-                    HStack {
-                        clockSection()  // 時計表示部分
-                            .frame(maxWidth: .infinity, maxHeight: .infinity)  // 幅と高さを最大に
-                        
-                        scheduleSection()  // 予定表示部分
-                            .frame(maxWidth: .infinity, maxHeight: .infinity)  // 幅と高さを最大に
-                    }
+                    landscapeLayout()
                 } else {
-                    // 縦向きの場合はVStackで時計とスケジュールを縦に並べる
-                    VStack {
-                        clockSection()  // 時計表示部分
-                        scheduleSection()  // 予定表示部分
-                    }
+                    portraitLayout()
+                }
+
+                // フローティングアクションボタン
+                // フローティングアクションボタン（画面下中央）
+                VStack {
+                    Spacer()
+                    FloatingActionButton(isAddScheduleViewPresented: $isAddScheduleViewPresented)
                 }
             }
-            .overlay(
-                // フローティングアクションボタン（FAB）を配置
-                FloatingActionButton(isAddScheduleViewPresented: $isAddScheduleViewPresented),
-                alignment: .bottomTrailing  // 右下に配置
-            )
             .sheet(isPresented: $isAddScheduleViewPresented) {
-                // FABをタップした時に新規スケジュール追加画面を表示
                 AddScheduleView(isAddScheduleViewPresented: $isAddScheduleViewPresented)
             }
         }
     }
 
-    // 時計の表示部分（アナログとデジタル時計）
-    private func clockSection() -> some View {
-        VStack {
-            AnalogClockView()  // アナログ時計表示
-            DigitalClockView()  // デジタル時計表示
+    // 横向きレイアウト
+    private func landscapeLayout() -> some View {
+        HStack(spacing: 20) {
+            // 時計セクション
+            clockSectionCard()
+                .frame(maxWidth: .infinity)
+
+            // 予定セクション
+            scheduleSectionCard()
+                .frame(maxWidth: .infinity)
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)  // 幅と高さを最大に
+        .padding(.horizontal, 20)
+        .padding(.vertical, 10)
     }
 
-    // 予定の表示部分
-    private func scheduleSection() -> some View {
-        VStack {
-            // 予定が無い場合
-            if scheduleViewModel.schedules.isEmpty {
-                VStack {
-                    Text(NSLocalizedString("no_schedules", comment: "予定がない場合に表示するメッセージ"))
-                        .font(.headline)
-                        .foregroundColor(.gray)
-                        .padding()
+    // 縦向きレイアウト
+    private func portraitLayout() -> some View {
+        VStack(spacing: 20) {
+            // 時計セクション
+            clockSectionCard()
+                .frame(maxHeight: .infinity, alignment: .center)
 
-                    Spacer()  // 空のスペースを入れて表示位置を調整
-                }
-                .frame(maxWidth: .infinity, maxHeight: .infinity)  // 幅と高さを最大に
-            // 予定がある場合
+            // 予定セクション
+            scheduleSectionCard()
+                .frame(maxHeight: .infinity)
+        }
+        .padding(.horizontal, 20)
+        .padding(.vertical, 10)
+    }
+
+    // 時計セクションをカード形式で表示
+    private func clockSectionCard() -> some View {
+        VStack(spacing: 15) {
+            AnalogClockView()
+                .frame(maxHeight: 250)
+
+            DigitalClockView()
+        }
+    }
+
+    // 予定セクションをカード形式で表示
+    private func scheduleSectionCard() -> some View {
+        VStack(spacing: 0) {
+            // ヘッダー
+            HStack {
+                Image(systemName: "calendar")
+                    .foregroundColor(.blue)
+                    .font(.title2)
+
+                Text("今日の予定")
+                    .font(.title2)
+                    .fontWeight(.semibold)
+                    .foregroundColor(.primary)
+
+                Spacer()
+
+                // 予定数表示
+                Text("\(scheduleViewModel.schedules.count)/\(scheduleViewModel.maxScheduleCount)")
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+                    .padding(.horizontal, 8)
+                    .padding(.vertical, 4)
+                    .background(Color.blue.opacity(0.1))
+                    .cornerRadius(8)
+            }
+            .padding(.horizontal, 20)
+            .padding(.vertical, 15)
+
+            Divider()
+
+            // 予定コンテンツ
+            if scheduleViewModel.schedules.isEmpty {
+                emptyScheduleView()
             } else {
                 ScheduleListView()
+                    .background(Color.white)
             }
-            
-            // 予定数が最大値に達している場合にメッセージを表示
+
+            // 最大予定数メッセージ
             if scheduleViewModel.schedules.count >= scheduleViewModel.maxScheduleCount {
-                Text(NSLocalizedString("max_schedules_reached", comment: "予定の登録上限で表示するメッセージ"))
-                    .font(.subheadline)
-                    .foregroundColor(.red)
-                    .padding(.bottom, 60)  // 画面下部に配置
-                    .frame(maxWidth: .infinity, alignment: .center)  // 幅を最大にして中央揃え
+                maxScheduleReachedMessage()
             }
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)  // 幅と高さを最大に
+        .background(
+            RoundedRectangle(cornerRadius: 20)
+                .fill(Color.white)
+                .shadow(color: Color.black.opacity(0.1), radius: 10, x: 0, y: 5)
+        )
+        .clipped()
+    }
+
+    // 予定がない場合の表示
+    private func emptyScheduleView() -> some View {
+        VStack(spacing: 20) {
+            Spacer()
+
+            Image(systemName: "calendar.badge.plus")
+                .font(.system(size: 60))
+                .foregroundColor(.blue.opacity(0.6))
+
+            VStack(spacing: 8) {
+                Text(NSLocalizedString("no_schedules", comment: "予定がない場合に表示するメッセージ"))
+                    .font(.headline)
+                    .foregroundColor(.primary)
+
+                Text("右下のボタンから予定を追加できます")
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+                    .multilineTextAlignment(.center)
+            }
+
+            Spacer()
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Color.white)
+    }
+
+    // 最大予定数メッセージ
+    private func maxScheduleReachedMessage() -> some View {
+        HStack {
+            Image(systemName: "exclamationmark.triangle.fill")
+                .foregroundColor(.orange)
+
+            Text(NSLocalizedString("max_schedules_reached", comment: "予定の登録上限で表示するメッセージ"))
+                .font(.caption)
+                .foregroundColor(.orange)
+
+            Spacer()
+        }
+        .padding(.horizontal, 20)
+        .padding(.vertical, 12)
+        .background(Color.orange.opacity(0.1))
     }
 }
 
-
 struct MainView_Previews: PreviewProvider {
     static var previews: some View {
-        MainView()
-            .environmentObject(ScheduleViewModel())  // ScheduleViewModelを環境オブジェクトとして提供
+        Group {
+            // 縦向きプレビュー
+            MainView()
+                .environmentObject(ScheduleViewModel())
+                .previewDisplayName("Portrait")
+
+            // 横向きプレビュー
+            MainView()
+                .environmentObject(ScheduleViewModel())
+                .previewInterfaceOrientation(.landscapeLeft)
+                .previewDisplayName("Landscape")
+        }
     }
 }

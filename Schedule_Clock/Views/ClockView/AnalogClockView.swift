@@ -61,7 +61,7 @@ struct ClockFace: View {
             Circle()
                 .stroke(Color.black, lineWidth: 2)
                 .frame(width: clockSize, height: clockSize)
-            
+
             // 12時間分の数字を配置（12, 1, 2, ..., 11）
             ForEach(0..<12) { hour in
                 Text("\(hour == 0 ? 12 : hour)") // 0時を12として表示

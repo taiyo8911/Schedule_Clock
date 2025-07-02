@@ -30,7 +30,7 @@ struct ScheduleListView: View {
                                 .foregroundColor(.gray)
                                 .font(.system(size: 20).monospaced())
                                 .padding(.trailing)
-                            
+
 
                             // 予定のタイトル
                             Text(schedule.title)
@@ -49,12 +49,12 @@ struct ScheduleListView: View {
             }
         }
     }
-    
+
     // 予定をスワイプで削除するための関数
     private func deleteSchedule(at offsets: IndexSet) {
         // インデックスに基づいて指定された予定を削除
         scheduleViewModel.schedules.remove(atOffsets: offsets)
-        
+
         // 削除後にスケジュールを保存
         scheduleViewModel.saveSchedules()
     }
