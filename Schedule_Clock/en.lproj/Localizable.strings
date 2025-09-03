@@ -1,0 +1,32 @@
+/*
+  Localizable.strings
+  Schedule_Clock
+
+  Created by Taiyo KOSHIBA on 2025/04/17.
+
+*/
+
+// Main Screen
+"no_schedules" = "No schedules";
+"add_schedule_hint" = "You can add schedules using the button below";
+"max_schedules_reached" = "Cannot create more schedules";
+
+// Add Schedule Screen
+"enter_schedule" = "Enter schedule";
+"start_time" = "Start time";
+"save" = "Save";
+"new_schedule" = "Add New Schedule";
+
+// Schedule List
+"delete" = "Delete";
+
+// Error Messages
+"save_error" = "Save Error";
+"load_error" = "Load Error";
+"delete_error" = "Delete Error";
+"invalid_input" = "Input Error";
+"save_error_message" = "Failed to save schedules.\nDetails: %@";
+"load_error_message" = "Failed to load schedules.\nDetails: %@";
+"schedule_limit_message" = "You can register up to %d schedules.";
+"empty_title_message" = "Please enter a schedule title.";
+"invalid_schedule_index" = "Invalid schedule specified.";
