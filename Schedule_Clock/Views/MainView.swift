@@ -17,13 +17,9 @@ struct MainView: View {
 
     var body: some View {
         ZStack {
-            // 背景グラデーション
-            LinearGradient(
-                gradient: Gradient(colors: [Color.blue.opacity(0.1), Color.white]),
-                startPoint: .topLeading,
-                endPoint: .bottomTrailing
-            )
-            .ignoresSafeArea()
+            // 背景色
+            Color.black
+                .ignoresSafeArea()
 
             // 適応的レイアウト
             adaptiveLayout()
@@ -155,7 +151,7 @@ struct MainView: View {
         }
         .background(
             RoundedRectangle(cornerRadius: 20)
-                .fill(Color.white)
+                .fill(Color.white.opacity(0.95))
                 .shadow(color: Color.black.opacity(0.1), radius: 10, x: 0, y: 5)
         )
         .clipped()

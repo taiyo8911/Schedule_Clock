@@ -53,9 +53,10 @@ struct ClockFace: View {
         return ZStack {
             // 時計の盤面（白い円）
             Circle()
-                .fill(Color.white) // 文字盤の背景色
+                .fill(Color.white)
                 .frame(width: clockSize, height: clockSize)
-                .shadow(radius: 10)  // 影を追加
+                .shadow(color: .white.opacity(0.3), radius: 20)  // 白いグロー効果
+                .shadow(radius: 10)
 
             // 時計の枠（黒い円）
             Circle()
@@ -65,7 +66,7 @@ struct ClockFace: View {
             // 12時間分の数字を配置（12, 1, 2, ..., 11）
             ForEach(0..<12) { hour in
                 Text("\(hour == 0 ? 12 : hour)") // 0時を12として表示
-                    .font(.system(size: clockSize * 0.08, weight: .bold)) // 時計のサイズに応じてフォントサイズを調整
+                    .font(.system(size: clockSize * 0.1, weight: .bold)) // 時計のサイズに応じてフォントサイズを調整
                     .foregroundColor(.black) // 文字の色を黒にする
                     .rotationEffect(.degrees(Double(hour) * -30)) // 文字が正しい位置に並ぶように回転
                     .offset(y: -clockSize * 0.42) // 時計の中心から外側へずらす
@@ -90,6 +91,7 @@ struct ClockHands: View {
 
             // 秒針
             HandView(rotation: angleForSecond(), lengthRatio: 0.45, color: .red, widthRatio: 0.01, clockSize: clockSize)
+                .shadow(color: .red.opacity(0.6), radius: 3)
         }
     }
 
