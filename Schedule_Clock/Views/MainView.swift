@@ -140,34 +140,6 @@ struct MainView: View {
     // 予定セクションをカード形式で表示
     private func scheduleSectionCard() -> some View {
         VStack(spacing: 0) {
-            // ヘッダー
-            HStack {
-                Image(systemName: "calendar")
-                    .foregroundColor(.blue)
-                    .font(.title2)
-
-                Text("今日の予定")
-                    .font(.title2)
-                    .fontWeight(.semibold)
-                    .foregroundColor(.primary)
-
-                Spacer()
-
-                // 予定数表示
-                Text("\(scheduleViewModel.schedules.count)/\(scheduleViewModel.maxScheduleCount)")
-                    .font(.caption)
-                    .foregroundColor(.secondary)
-                    .padding(.horizontal, 8)
-                    .padding(.vertical, 4)
-                    .background(Color.blue.opacity(0.1))
-                    .cornerRadius(8)
-            }
-            .padding(.horizontal, 20)
-            .padding(.vertical, 15)
-            .dynamicTypeSize(...DynamicTypeSize.xxxLarge)
-
-            Divider()
-
             // 予定コンテンツ（空状態とリスト表示を統合）
             if scheduleViewModel.schedules.isEmpty {
                 emptyScheduleView()
