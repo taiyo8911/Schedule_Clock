@@ -13,7 +13,7 @@ class ScheduleViewModel: ObservableObject {
     @Published var schedules: [ScheduleModel] = []
 
     // 予定の最大数指定
-    @Published var maxScheduleCount: Int = 5
+    @Published var maxScheduleCount: Int = 10
 
     // エラーメッセージとアラート表示の管理
     @Published var showAlert = false
