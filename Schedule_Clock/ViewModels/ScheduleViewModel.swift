@@ -13,7 +13,7 @@ class ScheduleViewModel: ObservableObject {
     @Published var schedules: [ScheduleModel] = []
 
     // 予定の最大数指定
-    @Published var maxScheduleCount: Int = 10
+    let maxScheduleCount = 10
 
     // エラーメッセージとアラート表示の管理
     @Published var showAlert = false
@@ -72,8 +72,13 @@ class ScheduleViewModel: ObservableObject {
 
     // 予定を時間順に並び替えて保存する
     private func sortAndSaveSchedules() {
-        // 開始時間が早い順に並び替える
-        schedules = schedules.sorted { $0.startTime < $1.startTime }
+        // 開始時間が早い順に並び替える（同時刻はidで安定化）
+        schedules = schedules.sorted {
+            if $0.startTime != $1.startTime {
+                return $0.startTime < $1.startTime
+            }
+            return $0.id.uuidString < $1.id.uuidString
+        }
         saveSchedules()
     }
 
@@ -117,7 +122,12 @@ class ScheduleViewModel: ObservableObject {
         do {
             let data = try Data(contentsOf: url)  // ファイルからデータを取得
             let decodedSchedules = try JSONDecoder().decode([ScheduleModel].self, from: data) // JSONをスケジュールデータに変換
-            self.schedules = decodedSchedules.sorted { $0.startTime < $1.startTime } // 取得したデータを時間順に並び替える
+            self.schedules = decodedSchedules.sorted {
+                if $0.startTime != $1.startTime {
+                    return $0.startTime < $1.startTime
+                }
+                return $0.id.uuidString < $1.id.uuidString
+            } // 取得したデータを時間順に並び替える（同時刻はidで安定化）
 
             // 成功時のログ（デバッグ用）
             print("スケジュールを正常に読み込みました: \(schedules.count)件")

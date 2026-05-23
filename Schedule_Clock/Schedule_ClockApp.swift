@@ -10,11 +10,13 @@ import SwiftUI
 @main
 struct Schedule_ClockApp: App {
     @StateObject private var scheduleViewModel = ScheduleViewModel()
+    @StateObject private var clockViewModel = ClockViewModel()
 
     var body: some Scene {
         WindowGroup {
             MainView()
                 .environmentObject(scheduleViewModel)
+                .environmentObject(clockViewModel)
         }
     }
 }

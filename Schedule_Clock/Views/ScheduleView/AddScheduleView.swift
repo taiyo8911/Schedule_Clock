@@ -17,7 +17,8 @@ struct AddScheduleView: View {
     @EnvironmentObject var scheduleViewModel: ScheduleViewModel  // スケジュールを管理するViewModelを取得
 
     var body: some View {
-        NavigationView {
+        let isTitleEmpty = title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+        return NavigationStack {
             VStack {
                 TextField("enter_schedule", text: $title)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
@@ -49,7 +50,9 @@ struct AddScheduleView: View {
                         .background(Color.blue)  // 背景色
                         .foregroundColor(.white)  // 文字色
                         .cornerRadius(10)  // 角丸
+                        .opacity(isTitleEmpty ? 0.5 : 1.0)  // 無効状態は半透明で表現
                 }
+                .disabled(isTitleEmpty)
                 .padding()
                 .dynamicTypeSize(...DynamicTypeSize.accessibility4)
 
