@@ -8,13 +8,13 @@
 import SwiftUI
 
 struct DigitalClockView: View {
-    @StateObject private var clockViewModel = ClockViewModel()  // 時計のデータを管理するViewModelを使用
+    @EnvironmentObject var clockViewModel: ClockViewModel  // アプリ全体で共有する時計データ
+    var fontSize: CGFloat = 40  // 表示フォントサイズ（呼び出し側でlayoutModeに応じて指定）
 
     var body: some View {
         Text(timeString)
-            .font(.system(size: 40, weight: .bold, design: .monospaced))
+            .font(.system(size: fontSize, weight: .bold, design: .monospaced))
             .foregroundColor(.white)
-            .shadow(color: .white.opacity(0.5), radius: 5)
     }
 
     // 現在の時間をフォーマットして文字列として取得
@@ -25,5 +25,6 @@ struct DigitalClockView: View {
 
 #Preview {
     DigitalClockView()
+        .environmentObject(ClockViewModel())
         .background(Color.black)
 }

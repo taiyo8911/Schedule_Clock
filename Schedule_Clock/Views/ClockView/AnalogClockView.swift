@@ -11,10 +11,7 @@ import SwiftUI
 
 // メインのアナログ時計ビュー
 struct AnalogClockView: View {
-    @State private var currentTime = Date() // 現在の時間を保持
-
-    // 1秒ごとに時間を更新するためのタイマー
-    private let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+    @EnvironmentObject var clockViewModel: ClockViewModel  // アプリ全体で共有する時計データ
 
     var body: some View {
         // GeometryReader → 親ビューのサイズに応じて時計のレイアウトを自動調整
@@ -26,16 +23,11 @@ struct AnalogClockView: View {
                 ClockFace(geometry: geometry)
 
                 // 時計の針（時針、分針、秒針）
-                ClockHands(currentTime: $currentTime, clockSize: clockSize)
+                ClockHands(currentTime: clockViewModel.currentTime, clockSize: clockSize)
 
                 // 時計の中心の小さな円（針の回転の支点）
                 Circle()
                     .frame(width: clockSize * 0.04, height: clockSize * 0.04) // 時計の中心の円
-            }
-            // タイマーが通知を送るたびに処理を実行
-            // timerは1秒ごとに通知（イベント）を送信するタイマー
-            .onReceive(timer) { _ in
-                self.currentTime = Date() // 1秒ごとに時間を更新
             }
         }
         .aspectRatio(1, contentMode: .fit) // 時計が正方形になるように調整
@@ -56,7 +48,6 @@ struct ClockFace: View {
                 .fill(Color.white)
                 .frame(width: clockSize, height: clockSize)
                 .shadow(color: .white.opacity(0.3), radius: 20)  // 白いグロー効果
-                .shadow(radius: 10)
 
             // 時計の枠（黒い円）
             Circle()
@@ -78,7 +69,7 @@ struct ClockFace: View {
 
 // 時計の針（時針、分針、秒針）
 struct ClockHands: View {
-    @Binding var currentTime: Date
+    let currentTime: Date
     let clockSize: CGFloat // 時計のサイズ
 
     var body: some View {
@@ -137,4 +128,5 @@ struct HandView: View {
 
 #Preview {
     AnalogClockView()
+        .environmentObject(ClockViewModel())
 }

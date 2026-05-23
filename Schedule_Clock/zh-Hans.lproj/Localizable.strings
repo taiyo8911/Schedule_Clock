@@ -10,6 +10,7 @@
 "no_schedules" = "没有日程";
 "add_schedule_hint" = "可以使用下方按钮添加日程";
 "max_schedules_reached" = "无法创建更多日程";
+"add_schedule_button" = "添加日程";
 
 // 添加日程屏幕
 "enter_schedule" = "输入日程";

@@ -10,6 +10,7 @@
 "no_schedules" = "No hay eventos";
 "add_schedule_hint" = "Puedes añadir eventos usando el botón de abajo";
 "max_schedules_reached" = "No se pueden crear más eventos";
+"add_schedule_button" = "Añadir evento";
 
 // Pantalla para añadir evento
 "enter_schedule" = "Introducir evento";

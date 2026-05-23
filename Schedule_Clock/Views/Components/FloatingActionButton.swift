@@ -32,28 +32,13 @@ struct FloatingActionButton: View {
                     .clipShape(Circle()) // 円形にする
                     .shadow(radius: 10) // 影をつけて立体的にする
             }
+            .accessibilityLabel(NSLocalizedString("add_schedule_button", comment: "予定追加ボタンのアクセシビリティラベル"))
             .padding(.bottom, 30) // 画面下から30ptの位置に配置
-            .padding(.trailing, 20) // 画面右端から20ptの位置に配置
         }
     }
 }
 
-// 新しいプレビュー記法を使用（デザイン確認用）
 #Preview {
-    // デザイン確認のため、条件分岐なしでボタンを直接表示
-    Button(action: {
-        // プレビュー用なので何もしない
-    }) {
-        Image(systemName: "plus.circle.fill")
-            .resizable()
-            .scaledToFit()
-            .frame(width: 60, height: 60)
-            .foregroundColor(.white)
-            .background(Color.blue)
-            .clipShape(Circle())
-            .shadow(radius: 10)
-    }
-    .padding(.bottom, 30)
-    .padding(.trailing, 20)
-    .padding(50) // プレビュー用に余白を追加
+    FloatingActionButton(isAddScheduleViewPresented: .constant(false))
+        .environmentObject(ScheduleViewModel())
 }

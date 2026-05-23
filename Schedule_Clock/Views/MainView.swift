@@ -129,7 +129,7 @@ struct MainView: View {
             AnalogClockView()
                 .frame(maxHeight: layoutMode == .large ? 300 : 250)
 
-            DigitalClockView()
+            DigitalClockView(fontSize: layoutMode == .large ? 60 : 40)
         }
     }
 
@@ -162,18 +162,25 @@ struct MainView: View {
         VStack(spacing: 20) {
             Spacer()
 
-            VStack(spacing: 12) {
-                // メインメッセージ（多言語対応）
-                Text(NSLocalizedString("no_schedules", comment: "予定がない場合に表示するメッセージ"))
-                    .font(.headline)
-                    .foregroundColor(.primary)
-
-                // サブメッセージ（多言語対応のために追加の文字列リソースを使用）
-                Text(NSLocalizedString("add_schedule_hint", comment: "予定追加のヒントメッセージ"))
-                    .font(.caption)
+            VStack(spacing: 16) {
+                Image(systemName: "calendar.badge.plus")
+                    .font(.system(size: 64))
+                    .symbolRenderingMode(.hierarchical)
                     .foregroundColor(.secondary)
-                    .multilineTextAlignment(.center)
-                    .padding(.horizontal, 40)
+
+                VStack(spacing: 12) {
+                    // メインメッセージ（多言語対応）
+                    Text(NSLocalizedString("no_schedules", comment: "予定がない場合に表示するメッセージ"))
+                        .font(.headline)
+                        .foregroundColor(.primary)
+
+                    // サブメッセージ（多言語対応のために追加の文字列リソースを使用）
+                    Text(NSLocalizedString("add_schedule_hint", comment: "予定追加のヒントメッセージ"))
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                        .multilineTextAlignment(.center)
+                        .padding(.horizontal, 40)
+                }
             }
 
             Spacer()
@@ -215,12 +222,14 @@ struct MainView_Previews: PreviewProvider {
             // iPhone縦向きプレビュー
             MainView()
                 .environmentObject(ScheduleViewModel())
+                .environmentObject(ClockViewModel())
                 .previewDevice("iPhone 14")
                 .previewDisplayName("iPhone Portrait")
 
             // iPhone横向きプレビュー
             MainView()
                 .environmentObject(ScheduleViewModel())
+                .environmentObject(ClockViewModel())
                 .previewDevice("iPhone 14")
                 .previewInterfaceOrientation(.landscapeLeft)
                 .previewDisplayName("iPhone Landscape")
