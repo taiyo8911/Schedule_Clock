@@ -11,6 +11,7 @@
 "add_schedule_hint" = "可以使用下方按鈕添加日程";
 "max_schedules_reached" = "無法創建更多日程";
 "add_schedule_button" = "添加日程";
+"today_schedules" = "今日的日程";
 
 // 添加日程螢幕
 "enter_schedule" = "輸入日程";

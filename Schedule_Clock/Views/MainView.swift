@@ -22,12 +22,18 @@ struct MainView: View {
                 .ignoresSafeArea()
 
             // 適応的レイアウト
-            adaptiveLayout()
+            GeometryReader { geometry in
+                adaptiveLayout(isPortrait: geometry.size.height > geometry.size.width)
+            }
 
-            // フローティングアクションボタン（画面下中央）
+            // フローティングアクションボタン（画面右下）
             VStack {
                 Spacer()
-                FloatingActionButton(isAddScheduleViewPresented: $isAddScheduleViewPresented)
+                HStack {
+                    Spacer()
+                    FloatingActionButton(isAddScheduleViewPresented: $isAddScheduleViewPresented)
+                        .padding(.trailing, 30)
+                }
             }
         }
         .sheet(isPresented: $isAddScheduleViewPresented) {
@@ -44,7 +50,7 @@ struct MainView: View {
 
     // 画面サイズに応じた適応的レイアウト
     @ViewBuilder
-    private func adaptiveLayout() -> some View {
+    private func adaptiveLayout(isPortrait: Bool) -> some View {
         switch layoutMode {
         case .compact:
             // iPhone縦向き、小さいiPad
@@ -54,7 +60,11 @@ struct MainView: View {
             regularLayout()
         case .large:
             // 大きいiPad
-            largeLayout()
+            if isPortrait {
+                largePortraitLayout()  // iPad縦向き（縦並び）
+            } else {
+                largeLayout()          // iPad横向き（横並び）
+            }
         }
     }
 
@@ -81,9 +91,9 @@ struct MainView: View {
     // コンパクトレイアウト（iPhone縦向き）
     private func compactLayout() -> some View {
         VStack(spacing: 20) {
-            // 時計セクション（小さめ）
-            clockSectionCard()
-                .frame(maxHeight: 300)
+            // 時計セクション
+            clockSectionCard(clockMaxHeight: 320, digitalFontSize: 50)
+                .frame(maxHeight: 380)
 
             // 予定セクション
             scheduleSectionCard()
@@ -97,7 +107,7 @@ struct MainView: View {
     private func regularLayout() -> some View {
         HStack(spacing: 20) {
             // 時計セクション
-            clockSectionCard()
+            clockSectionCard(clockMaxHeight: 300, digitalFontSize: 48)
                 .frame(maxWidth: .infinity)
 
             // 予定セクション
@@ -108,12 +118,12 @@ struct MainView: View {
         .padding(.vertical, 10)
     }
 
-    // ラージレイアウト（大きいiPad）
+    // ラージレイアウト（大きいiPad横向き）
     private func largeLayout() -> some View {
         HStack(spacing: 30) {
             // 時計セクション（大きめ）
-            clockSectionCard()
-                .frame(maxWidth: .infinity, maxHeight: 400)
+            clockSectionCard(clockMaxHeight: 480, digitalFontSize: 88)
+                .frame(maxWidth: .infinity, maxHeight: 580)
 
             // 予定セクション（大きめ）
             scheduleSectionCard()
@@ -123,38 +133,85 @@ struct MainView: View {
         .padding(.vertical, 20)
     }
 
+    // ラージポートレイトレイアウト（大きいiPad縦向き）
+    private func largePortraitLayout() -> some View {
+        VStack(spacing: 30) {
+            // 時計セクション（さらに大きめ）
+            clockSectionCard(clockMaxHeight: 500, digitalFontSize: 88)
+                .frame(maxWidth: .infinity, maxHeight: 600)
+
+            // 予定セクション
+            scheduleSectionCard()
+                .frame(maxWidth: .infinity)
+        }
+        .padding(.horizontal, 40)
+        .padding(.vertical, 20)
+    }
+
     // 時計セクションをカード形式で表示
-    private func clockSectionCard() -> some View {
+    private func clockSectionCard(clockMaxHeight: CGFloat = 250, digitalFontSize: CGFloat = 40) -> some View {
         VStack(spacing: 15) {
             AnalogClockView()
-                .frame(maxHeight: layoutMode == .large ? 300 : 250)
+                .frame(maxHeight: clockMaxHeight)
 
-            DigitalClockView(fontSize: layoutMode == .large ? 60 : 40)
+            DigitalClockView(fontSize: digitalFontSize)
         }
     }
 
     // 予定セクションをカード形式で表示
     private func scheduleSectionCard() -> some View {
-        VStack(spacing: 0) {
-            // 予定コンテンツ（空状態とリスト表示を統合）
-            if scheduleViewModel.schedules.isEmpty {
-                emptyScheduleView()
-            } else {
-                ScheduleListView()
-                    .background(Color.white)
-            }
+        GeometryReader { geometry in
+            let headerHeight: CGFloat = 50
+            let bottomSpacerHeight: CGFloat = 80
+            let availableForRows = max(geometry.size.height - headerHeight - bottomSpacerHeight, 0)
+            let rowHeight = availableForRows / CGFloat(scheduleViewModel.maxScheduleCount)
+            let fontSize = max(rowHeight * 0.45, 14)  // 最小14ptは確保
 
-            // 最大予定数メッセージ
-            if scheduleViewModel.schedules.count >= scheduleViewModel.maxScheduleCount {
-                maxScheduleReachedMessage()
+            VStack(spacing: 0) {
+                // ヘッダー（タイトル + 件数）
+                scheduleSectionHeader(headerHeight: headerHeight, fontSize: fontSize)
+
+                // 予定コンテンツ（空状態とリスト表示を統合）
+                if scheduleViewModel.schedules.isEmpty {
+                    emptyScheduleView()
+                } else {
+                    ScheduleListView(rowHeight: rowHeight, fontSize: fontSize)
+                        .background(Color.white)
+                }
+
+                // 最大予定数メッセージ
+                if scheduleViewModel.schedules.count >= scheduleViewModel.maxScheduleCount {
+                    maxScheduleReachedMessage()
+                }
             }
+            .background(
+                RoundedRectangle(cornerRadius: 28)
+                    .fill(Color.white.opacity(0.95))
+                    .shadow(color: Color.black.opacity(0.1), radius: 10, x: 0, y: 5)
+            )
+            .clipped()
         }
-        .background(
-            RoundedRectangle(cornerRadius: 20)
-                .fill(Color.white.opacity(0.95))
-                .shadow(color: Color.black.opacity(0.1), radius: 10, x: 0, y: 5)
-        )
-        .clipped()
+    }
+
+    // 予定セクションのヘッダー（タイトルと件数表示）
+    private func scheduleSectionHeader(headerHeight: CGFloat, fontSize: CGFloat) -> some View {
+        HStack {
+            Text(NSLocalizedString("today_schedules", comment: "予定セクションのタイトル"))
+                .font(.system(size: fontSize, weight: .semibold))
+                .foregroundColor(.primary)
+                .lineLimit(1)
+                .minimumScaleFactor(0.5)
+
+            Spacer()
+
+            Text("\(scheduleViewModel.schedules.count)/\(scheduleViewModel.maxScheduleCount)")
+                .font(.system(size: fontSize * 0.85, design: .monospaced))
+                .foregroundColor(.secondary)
+        }
+        .padding(.horizontal, 20)
+        .frame(height: headerHeight)
+        .background(Color.white)
+        .dynamicTypeSize(...DynamicTypeSize.xxxLarge)
     }
 
     // 予定がない場合の表示（改良版 - より適切な多言語対応）

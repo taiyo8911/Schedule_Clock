@@ -11,6 +11,7 @@
 "add_schedule_hint" = "You can add schedules using the button below";
 "max_schedules_reached" = "Cannot create more schedules";
 "add_schedule_button" = "Add schedule";
+"today_schedules" = "Today's schedules";
 
 // Add Schedule Screen
 "enter_schedule" = "Enter schedule";

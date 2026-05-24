@@ -11,6 +11,7 @@
 "add_schedule_hint" = "Puedes añadir eventos usando el botón de abajo";
 "max_schedules_reached" = "No se pueden crear más eventos";
 "add_schedule_button" = "Añadir evento";
+"today_schedules" = "Eventos de hoy";
 
 // Pantalla para añadir evento
 "enter_schedule" = "Introducir evento";

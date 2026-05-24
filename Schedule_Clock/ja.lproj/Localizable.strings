@@ -11,6 +11,7 @@
 "add_schedule_hint" = "下のボタンから予定を追加できます";
 "max_schedules_reached" = "予定はこれ以上作成できません";
 "add_schedule_button" = "予定を追加";
+"today_schedules" = "今日の予定";
 
 // 予定追加画面
 "enter_schedule" = "予定を入力";

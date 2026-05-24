@@ -33,7 +33,7 @@ struct FloatingActionButton: View {
                     .shadow(radius: 10) // 影をつけて立体的にする
             }
             .accessibilityLabel(NSLocalizedString("add_schedule_button", comment: "予定追加ボタンのアクセシビリティラベル"))
-            .padding(.bottom, 30) // 画面下から30ptの位置に配置
+            .padding(.bottom, 40) // 画面下から40ptの位置に配置
         }
     }
 }
